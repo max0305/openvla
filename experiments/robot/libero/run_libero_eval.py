@@ -23,15 +23,20 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional, Union
 
+# Add project root and LIBERO root to sys.path
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
+LIBERO_ROOT = PROJECT_ROOT / "LIBERO"
+for path in (PROJECT_ROOT, LIBERO_ROOT):
+    path_str = str(path)
+    if path_str not in sys.path:
+        sys.path.insert(0, path_str)
+
 import draccus
 import numpy as np
 import tqdm
 from libero.libero import benchmark
 
 import wandb
-
-# Append current directory so that interpreter can find experiments.robot
-sys.path.append("../..")
 from experiments.robot.libero.libero_utils import (
     get_libero_dummy_action,
     get_libero_env,
